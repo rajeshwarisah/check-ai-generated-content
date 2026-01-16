@@ -1,0 +1,89 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Environment Variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+logs/
+*.log
+
+# Models (large files, should be downloaded separately)
+models/text/roberta_detector/*.bin
+models/text/roberta_detector/pytorch_model.bin
+models/image/cnn_detector/*.pth
+models/image/cnn_detector/*.pt
+
+# Outputs
+outputs/reports/*.html
+outputs/reports/*.json
+
+# Uploads (temporary files)
+src/web/static/uploads/*
+!src/web/static/uploads/.gitkeep
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Test files
+tests/fixtures/sample_pdfs/*
+!tests/fixtures/sample_pdfs/.gitkeep
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/

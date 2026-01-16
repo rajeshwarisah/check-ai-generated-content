@@ -1,0 +1,52 @@
+# Core Dependencies
+python-dotenv==1.0.0
+pyyaml==6.0.1
+click==8.1.7
+rich==13.7.0
+
+# PDF Processing
+PyMuPDF==1.23.8
+pdfplumber==0.10.3
+tabula-py==2.9.0
+
+# OCR
+pytesseract==0.3.10
+
+# ML & AI
+torch==2.1.2
+torchvision==0.16.2
+transformers==4.36.2
+huggingface-hub==0.20.2
+openai==1.7.2
+
+# Image Processing
+Pillow==10.2.0
+opencv-python==4.9.0.80
+scikit-image==0.22.0
+numpy==1.26.3
+scipy==1.11.4
+
+# Data Processing
+pandas==2.1.4
+
+# Natural Language Processing
+nltk==3.8.1
+sentencepiece==0.1.99
+
+# Web Framework (for Web UI)
+flask==3.0.0
+flask-cors==4.0.0
+werkzeug==3.0.1
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Code Quality
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+
+# Utilities
+tqdm==4.66.1
+requests==2.31.0

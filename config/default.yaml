@@ -1,0 +1,115 @@
+# Default Configuration for AI Content Detection System
+
+# Detection Thresholds
+thresholds:
+  ai_detection: 0.80          # Threshold for marking content as AI-generated
+  confidence: 0.70             # Minimum confidence level for conclusive results
+  inconclusive_range:          # Range for inconclusive results
+    min: 0.50
+    max: 0.79
+
+# Text Detection Configuration
+text_detection:
+  min_words: 50                # Minimum words required for text analysis
+  detectors:
+    openai:
+      enabled: true
+      weight: 0.4
+      model: "gpt-4"
+      max_tokens: 2000
+      temperature: 0.0
+    roberta:
+      enabled: true
+      weight: 0.3
+      model_path: "models/text/roberta_detector"
+    linguistic:
+      enabled: true
+      weight: 0.3
+      features:
+        - perplexity
+        - burstiness
+        - entropy
+        - vocabulary_richness
+
+# Image Detection Configuration
+image_detection:
+  min_resolution: 64           # Minimum width/height in pixels
+  detectors:
+    cnn:
+      enabled: true
+      weight: 0.6
+      model_path: "models/image/cnn_detector"
+      model_architecture: "resnet50"
+    forensic:
+      enabled: true
+      weight: 0.4
+      analyses:
+        - jpeg_artifacts
+        - noise_patterns
+        - frequency_domain
+
+# Content Classification
+content_classification:
+  priority_order:
+    - table
+    - image_with_text
+    - image
+    - text
+  table_detection:
+    min_rows: 2
+    min_cols: 2
+  image_text_extraction:
+    enabled: true
+    ocr_language: "eng"
+
+# PDF Processing
+pdf_processing:
+  max_pages: 450
+  dpi: 300                      # DPI for page rendering
+  ocr:
+    enabled: true
+    language: "eng"
+    confidence_threshold: 60
+  extraction:
+    preserve_layout: true
+    extract_images: true
+    extract_tables: true
+    image_min_size: 50          # Minimum width/height in pixels
+
+# Reporting
+reporting:
+  format: "html"
+  include:
+    - page_preview
+    - bounding_boxes
+    - confidence_scores
+    - detection_methods
+    - explanations
+    - model_identification
+  color_coding:
+    human_generated: "#28a745"   # Green
+    inconclusive: "#ffc107"      # Yellow
+    ai_generated: "#dc3545"      # Red
+    failed: "#6c757d"            # Gray
+
+# Processing
+processing:
+  mode: "synchronous"
+  batch_size: 1
+  error_handling:
+    on_pdf_error: "exit"         # exit or continue
+    on_page_error: "skip"        # skip or exit
+    on_api_error: "exit"         # exit or retry
+
+# Output
+output:
+  reports_dir: "outputs/reports"
+  logs_dir: "logs"
+  save_intermediate: false      # Save intermediate processing results
+
+# Logging
+logging:
+  level: "INFO"                 # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_enabled: true
+  console_enabled: true
