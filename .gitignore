@@ -54,8 +54,13 @@ logs/
 # Models (large files, should be downloaded separately)
 models/text/roberta_detector/*.bin
 models/text/roberta_detector/pytorch_model.bin
+models/text/roberta_detector/*.safetensors
+models/text/perplexity_model/*.bin
+models/text/perplexity_model/pytorch_model.bin
+models/text/perplexity_model/*.safetensors
 models/image/cnn_detector/*.pth
 models/image/cnn_detector/*.pt
+models/image/cnn_detector/*.safetensors
 
 # Outputs
 outputs/reports/*.html
