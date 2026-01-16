@@ -1,0 +1,70 @@
+# Model Configuration and Setup Instructions
+
+# Text Detection Models
+text_models:
+  roberta_detector:
+    description: "RoBERTa-based AI text detector"
+    source: "huggingface"
+    model_id: "roberta-base-openai-detector"
+    alternatives:
+      - "Hello-SimpleAI/chatgpt-detector-roberta"
+      - "andreas122001/roberta-large-finetuned-ai-detection"
+    local_path: "models/text/roberta_detector"
+    size: "~500MB"
+    setup_command: |
+      from transformers import AutoTokenizer, AutoModelForSequenceClassification
+      tokenizer = AutoTokenizer.from_pretrained("roberta-base-openai-detector")
+      model = AutoModelForSequenceClassification.from_pretrained("roberta-base-openai-detector")
+      tokenizer.save_pretrained("models/text/roberta_detector")
+      model.save_pretrained("models/text/roberta_detector")
+
+  perplexity_model:
+    description: "Small language model for perplexity calculation"
+    source: "huggingface"
+    model_id: "gpt2"
+    local_path: "models/text/perplexity_model"
+    size: "~500MB"
+
+# Image Detection Models
+image_models:
+  cnn_detector:
+    description: "CNN-based AI image detector"
+    architecture: "resnet50"
+    pretrained_source: "pytorch"
+    local_path: "models/image/cnn_detector"
+    size: "~100MB"
+    notes: |
+      This model needs to be fine-tuned on AI-generated vs real images.
+      Options:
+      1. Use pre-trained ResNet50 from torchvision
+      2. Fine-tune on dataset like CIFAKE or similar
+      3. Alternative: Use pre-trained model from HuggingFace
+    alternatives:
+      - architecture: "efficientnet_b0"
+        source: "torchvision"
+      - model_id: "umm-maybe/AI-image-detector"
+        source: "huggingface"
+
+# Model Download Instructions
+download_instructions: |
+  To set up the required models:
+
+  1. Text Models:
+     python scripts/download_models.py --text
+
+  2. Image Models:
+     python scripts/download_models.py --image
+
+  3. All Models:
+     python scripts/download_models.py --all
+
+# API Requirements
+api_models:
+  openai:
+    required: true
+    api_key_env: "OPENAI_API_KEY"
+    recommended_model: "gpt-4"
+    fallback_model: "gpt-3.5-turbo"
+    cost_per_1k_tokens:
+      gpt4: 0.03
+      gpt35: 0.002
