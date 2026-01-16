@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .page_processor import PageProcessor
 from ..detectors.text.ensemble_text import EnsembleTextDetector
+from ..detectors.image.image_detector import ImageDetector
 from ..detectors.model_identifier import AIModelIdentifier
 from ..utils.config import get_config
 from ..utils.logger import get_logger
@@ -27,6 +28,7 @@ class ContentAnalyzer:
         # Initialize components
         self.page_processor = PageProcessor(config_path)
         self.text_detector = EnsembleTextDetector(self.config.to_dict())
+        self.image_detector = ImageDetector(self.config.to_dict())
         self.model_identifier = AIModelIdentifier()
 
         # Get configuration
@@ -276,16 +278,82 @@ class ContentAnalyzer:
             }
 
     def _analyze_image_element(self, element: Dict) -> Dict:
-        """Analyze image element for AI detection (Phase 3 placeholder)."""
-        # Phase 3 will implement actual image detection
-        return {
-            "element_type": "image",
-            "bbox": element["bbox"],
-            "status": "not_implemented",
-            "reason": "Image detection not yet implemented (Phase 3)",
-            "ai_probability": None,
-            "confidence": None,
-        }
+        """Analyze image element for AI detection."""
+        image = element.get("image")
+
+        if image is None:
+            return {
+                "element_type": "image",
+                "bbox": element["bbox"],
+                "status": "error",
+                "error": "No image data",
+                "ai_probability": None,
+                "confidence": None,
+            }
+
+        try:
+            # Run image detection
+            detection_result = self.image_detector.detect(image)
+
+            if detection_result["status"] == "skipped":
+                return {
+                    "element_type": "image",
+                    "bbox": element["bbox"],
+                    "status": "skipped",
+                    "reason": detection_result.get("reason"),
+                    "ai_probability": None,
+                    "confidence": None,
+                }
+
+            if detection_result["status"] == "error":
+                return {
+                    "element_type": "image",
+                    "bbox": element["bbox"],
+                    "status": "error",
+                    "error": detection_result.get("error"),
+                    "ai_probability": None,
+                    "confidence": None,
+                }
+
+            # If image has text, also analyze the text
+            text_analysis = None
+            if detection_result.get("has_text") and detection_result.get("extracted_text"):
+                extracted_text = detection_result["extracted_text"]
+                if validate_text_length(extracted_text, self.min_text_words):
+                    try:
+                        text_result = self.text_detector.detect(extracted_text)
+                        if text_result["status"] == "success":
+                            text_analysis = {
+                                "ai_probability": text_result["ai_probability"],
+                                "confidence": text_result["confidence"],
+                                "word_count": len(extracted_text.split()),
+                            }
+                    except Exception as e:
+                        self.logger.warning(f"Text analysis in image failed: {e}")
+
+            return {
+                "element_type": "image",
+                "bbox": element["bbox"],
+                "status": "analyzed",
+                "ai_probability": detection_result["ai_probability"],
+                "confidence": detection_result["confidence"],
+                "method": detection_result.get("method"),
+                "features": detection_result.get("features", {}),
+                "image_size": detection_result.get("image_size"),
+                "has_text": detection_result.get("has_text", False),
+                "text_analysis": text_analysis,
+            }
+
+        except Exception as e:
+            self.logger.error(f"Image analysis error: {e}")
+            return {
+                "element_type": "image",
+                "bbox": element["bbox"],
+                "status": "error",
+                "error": str(e),
+                "ai_probability": None,
+                "confidence": None,
+            }
 
     def _aggregate_page_results(
         self, page_num: int, classification: Dict, element_analyses: List[Dict]
