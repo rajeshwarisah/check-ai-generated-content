@@ -168,7 +168,7 @@ def classify_page(extracted_data):
    - Cost: ~$0.01-0.03 per page (depending on text length)
 
 2. **Open-Source Model Detector**
-   - RoBERTa-based classifier (e.g., `roberta-base-openai-detector`)
+   - RoBERTa-based classifier (e.g., `tomg-group-umd/Binoculars`)
    - Fine-tuned on AI-generated text datasets
    - Local inference using PyTorch
 
