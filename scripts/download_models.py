@@ -29,13 +29,13 @@ def download_text_models(model_dir: Path):
         console=console,
     ) as progress:
         # RoBERTa detector
-        task = progress.add_task("Downloading RoBERTa AI detector...", total=None)
+        task = progress.add_task("Downloading Binoculars AI detector...", total=None)
 
         roberta_dir = model_dir / "text" / "roberta_detector"
         roberta_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            model_id = "Hello-SimpleAI/chatgpt-detector-roberta"
+            model_id = "tomg-group-umd/Binoculars"
             console.print(f"  Model: {model_id}")
 
             tokenizer = AutoTokenizer.from_pretrained(model_id)

@@ -26,7 +26,7 @@ class RoBERTaDetector(BaseTextDetector):
         # Configuration
         self.model_path = config.get("model_path", "models/text/roberta_detector")
         self.model_id = config.get(
-            "model_id", "Hello-SimpleAI/chatgpt-detector-roberta"
+            "model_id", "tomg-group-umd/Binoculars"
         )
 
         # Initialize model and tokenizer
@@ -133,7 +133,7 @@ class RoBERTaDetector(BaseTextDetector):
             probs = torch.softmax(logits, dim=-1)
 
             # Check model config for label ordering
-            # The Hello-SimpleAI/chatgpt-detector-roberta model uses [Real, Fake] where:
+            # The tomg-group-umd/Binoculars model uses [Real, Fake] where:
             # Real (index 0) = Human-written
             # Fake (index 1) = AI-generated
             if probs.shape[-1] == 2:

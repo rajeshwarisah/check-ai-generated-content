@@ -3,18 +3,19 @@
 # Text Detection Models
 text_models:
   roberta_detector:
-    description: "RoBERTa-based AI text detector"
+    description: "Binoculars AI text detector"
     source: "huggingface"
-    model_id: "roberta-base-openai-detector"
+    model_id: "tomg-group-umd/Binoculars"
     alternatives:
+      - "roberta-base-openai-detector"
       - "Hello-SimpleAI/chatgpt-detector-roberta"
       - "andreas122001/roberta-large-finetuned-ai-detection"
     local_path: "models/text/roberta_detector"
     size: "~500MB"
     setup_command: |
       from transformers import AutoTokenizer, AutoModelForSequenceClassification
-      tokenizer = AutoTokenizer.from_pretrained("roberta-base-openai-detector")
-      model = AutoModelForSequenceClassification.from_pretrained("roberta-base-openai-detector")
+      tokenizer = AutoTokenizer.from_pretrained("tomg-group-umd/Binoculars")
+      model = AutoModelForSequenceClassification.from_pretrained("tomg-group-umd/Binoculars")
       tokenizer.save_pretrained("models/text/roberta_detector")
       model.save_pretrained("models/text/roberta_detector")
 

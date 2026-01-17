@@ -23,7 +23,7 @@
   - Gracefully handles missing API key
 
 - ✅ **text/roberta_detector.py** - RoBERTa transformer detector
-  - Uses `Hello-SimpleAI/chatgpt-detector-roberta` model
+  - Uses `tomg-group-umd/Binoculars` model
   - Binary classification (Human vs AI)
   - CPU-optimized inference
   - Auto-downloads and caches model locally
